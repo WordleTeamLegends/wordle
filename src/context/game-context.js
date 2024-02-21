@@ -26,30 +26,48 @@ export default function GameContextProvider({ children }) {
 
   const [currentGame, setCurrentGame] = useState(currentGameObject);
 
-  const [gamesolution, setGamesolution] = useState();
+  const [currentLine, setCurrentLine] = useState("2");
 
-  const [display1, setDisplay1] = useState("");
-  const [display2, setDisplay2] = useState("");
-  const [display3, setDisplay3] = useState("");
-  const [display4, setDisplay4] = useState("");
-  const [display5, setDisplay5] = useState("");
+  const [display1_1, setDisplay1_1] = useState("");
+  const [display1_2, setDisplay1_2] = useState("");
+  const [display1_3, setDisplay1_3] = useState("");
+  const [display1_4, setDisplay1_4] = useState("");
+  const [display1_5, setDisplay1_5] = useState("");
 
-  const [display1state, setDisplay1state] = useState("default");
-  const [display2state, setDisplay2state] = useState("default");
-  const [display3state, setDisplay3state] = useState("default");
-  const [display4state, setDisplay4state] = useState("default");
-  const [display5state, setDisplay5state] = useState("default");
+  const [display1_1state, setDisplay1_1state] = useState("default");
+  const [display1_2state, setDisplay1_2state] = useState("default");
+  const [display1_3state, setDisplay1_3state] = useState("default");
+  const [display1_4state, setDisplay1_4state] = useState("default");
+  const [display1_5state, setDisplay1_5state] = useState("default");
+
+  const [display2_1, setDisplay2_1] = useState("");
+  const [display2_2, setDisplay2_2] = useState("");
+  const [display2_3, setDisplay2_3] = useState("");
+  const [display2_4, setDisplay2_4] = useState("");
+  const [display2_5, setDisplay2_5] = useState("");
+
+  const [display2_1state, setDisplay2_1state] = useState("default");
+  const [display2_2state, setDisplay2_2state] = useState("default");
+  const [display2_3state, setDisplay2_3state] = useState("default");
+  const [display2_4state, setDisplay2_4state] = useState("default");
+  const [display2_5state, setDisplay2_5state] = useState("default");
 
   async function getGuess() {
-    if (display5 !== "") {
-      const guess = display1 + display2 + display3 + display4 + display5;
+    if (display1_5 !== "") {
+      const guess = display1_1 + display1_2 + display1_3 + display1_4 + display1_5;
       //console.log("important string!", guess);
       const isAllowedGuess = await checkDB(guess);
       if (isAllowedGuess.rowCount > 0) {
         let solutionarray = currentGame.solution.split("");
         // MY CHANGES START HERE (EDUARDO)
 
-        let guessarray = [display1.toLowerCase(), display2.toLowerCase(), display3.toLowerCase(), display4.toLowerCase(), display5.toLowerCase()]; // new from here
+        let guessarray = [
+          display1_1.toLowerCase(),
+          display1_2.toLowerCase(),
+          display1_3.toLowerCase(),
+          display1_4.toLowerCase(),
+          display1_5.toLowerCase(),
+        ]; // new from here
         let resultarray = new Array(5); // array of 5x5
 
         for (let i = 0; i < solutionarray.length; i++) {
@@ -88,11 +106,11 @@ export default function GameContextProvider({ children }) {
         [0, 0, 0, 0, 0];
         function changeColours() {
           // if (sumMatrix[0] === 0) {
-          //   console.log(setDisplay1state("grey"));
+          //   console.log(setDisplay1_1state("grey"));
           // } else if (sumMatrix[0] === 1) {
-          //   console.log(setDisplay1state("yellow"));
+          //   console.log(setDisplay1_1state("yellow"));
           // } else if (sumMatrix[0] === 2) {
-          //   console.log(setDisplay1state("green"));
+          //   console.log(setDisplay1_1state("green"));
           // }
 
           // sumMatrix.forEach((element, index) => {
@@ -158,31 +176,36 @@ export default function GameContextProvider({ children }) {
     setCurrentGame({ ...currentGame, ...copiedObject });
   }
 
-  function typeInLine(key) {
-    if (display1 === "") {
-      setDisplay1(key);
-    } else if (display1 !== "" && display2 === "") {
-      setDisplay2(key);
-    } else if (display1 !== "" && display2 !== "" && display3 === "") {
-      setDisplay3(key);
-    } else if (display1 !== "" && display2 !== "" && display3 !== "" && display4 === "") {
-      setDisplay4(key);
-    } else if (display1 !== "" && display2 !== "" && display3 !== "" && display4 !== "" && display5 === "") {
-      setDisplay5(key);
+  function typeInLine(key, currentLine) {
+    if (`display${currentLine}_1 === ""`) {
+      console.log("hey");
+      // eval(`display${currentLine} === ""`);
+      // setDisplay1_1(key);
+      {
+        eval(`setDisplay${currentLine}_1(key)`);
+      }
+      // } else if (display1_1 !== "" && display1_2 === "") {
+      //   setDisplay1_2(key);
+      // } else if (display1_1 !== "" && display1_2 !== "" && display1_3 === "") {
+      //   setDisplay1_3(key);
+      // } else if (display1_1 !== "" && display1_2 !== "" && display1_3 !== "" && display1_4 === "") {
+      //   setDisplay1_4(key);
+      // } else if (display1_1 !== "" && display1_2 !== "" && display1_3 !== "" && display1_4 !== "" && display1_5 === "") {
+      //   setDisplay1_5(key);
     }
   }
 
   function deleteLetter() {
-    if (display5 !== "") {
-      setDisplay5("");
-    } else if (display5 === "" && display4 !== "") {
-      setDisplay4("");
-    } else if (display5 === "" && display4 === "" && display3 !== "") {
-      setDisplay3("");
-    } else if (display5 === "" && display4 === "" && display3 === "" && display2 !== "") {
-      setDisplay2("");
-    } else if (display5 === "" && display4 === "" && display3 === "" && display2 === "" && display1 !== "") {
-      setDisplay1("");
+    if (display1_5 !== "") {
+      setDisplay1_5("");
+    } else if (display1_5 === "" && display1_4 !== "") {
+      setDisplay1_4("");
+    } else if (display1_5 === "" && display1_4 === "" && display1_3 !== "") {
+      setDisplay1_3("");
+    } else if (display1_5 === "" && display1_4 === "" && display1_3 === "" && display1_2 !== "") {
+      setDisplay1_2("");
+    } else if (display1_5 === "" && display1_4 === "" && display1_3 === "" && display1_2 === "" && display1_1 !== "") {
+      setDisplay1_1("");
     }
   }
 
@@ -190,21 +213,32 @@ export default function GameContextProvider({ children }) {
     <GameContext.Provider
       value={{
         currentGame,
-        display1,
-        display2,
-        display3,
-        display4,
-        display5,
+        display1_1,
+        display1_2,
+        display1_3,
+        display1_4,
+        display1_5,
+        display2_1,
+        display2_2,
+        display2_3,
+        display2_4,
+        display2_5,
         getGuess,
         typeInLine,
         startNewGame,
         deleteLetter,
-        display1state,
-        display2state,
-        display3state,
-        display4state,
-        display5state,
+        display1_1state,
+        display1_2state,
+        display1_3state,
+        display1_4state,
+        display1_5state,
+        display2_1state,
+        display2_2state,
+        display2_3state,
+        display2_4state,
+        display2_5state,
         runToast,
+        currentLine,
       }}
     >
       {children}

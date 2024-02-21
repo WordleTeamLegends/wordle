@@ -4,7 +4,7 @@ import { useGameContext } from "@/context/game-context";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Keyboard() {
-  const { typeInLine, getGuess, deleteLetter, runToast } = useGameContext();
+  const { typeInLine, getGuess, deleteLetter, runToast, currentLine } = useGameContext();
 
   const firstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const secondRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -19,7 +19,7 @@ export default function Keyboard() {
             key={key}
             value={key}
             onClick={() => {
-              typeInLine(key);
+              typeInLine(key, currentLine);
             }}
           >
             {key}
@@ -32,7 +32,7 @@ export default function Keyboard() {
             key={key}
             value={key}
             onClick={() => {
-              typeInLine(key);
+              typeInLine(key, currentLine);
             }}
           >
             {key}
@@ -53,7 +53,7 @@ export default function Keyboard() {
             key={key}
             value={key}
             onClick={() => {
-              typeInLine(key);
+              typeInLine(key, currentLine);
             }}
           >
             {key}
