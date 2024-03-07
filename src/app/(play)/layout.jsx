@@ -5,7 +5,6 @@ import GameContextProvider from "@/context/game-context";
 
 /* ----- Project Imports ----- */
 import LoginManager from "@/components/LoginManager";
-import "./globals.css";
 
 export const metadata = {
   title: "Wordly by the Lads",
