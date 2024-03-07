@@ -21,12 +21,10 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   return (
-    <GameContextProvider>
-      <LoginManager />
-      {children}
-      <footer className="footer">
-        <p>© 2024 Wordly Game. All rights reserved.</p>
-      </footer>
-    </GameContextProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
