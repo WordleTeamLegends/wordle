@@ -5,7 +5,7 @@ import GameContextProvider from "@/context/game-context";
 
 /* ----- Project Imports ----- */
 import LoginManager from "@/components/LoginManager";
-import './globals.css';
+import "./globals.css";
 
 export const metadata = {
   title: "Wordly by the Lads",
@@ -13,24 +13,18 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-
-
   return (
-    <ClerkProvider>
-    <html lang="en">
+    <>
       <GameContextProvider>
-        <body>
-         <LoginManager/>
-         <nav>
-            <Link href="/">Home</Link>
-          </nav>
-          {children}
+        <LoginManager />
+        <nav>
+          <Link href="/">Home</Link>
+        </nav>
+        {children}
         <footer className="footer">
-        <p>© 2024 Wordly Game. All rights reserved.</p>
+          <p>© 2024 Wordly Game. All rights reserved.</p>
         </footer>
-        </body>
       </GameContextProvider>
-    </html>
-    </ClerkProvider>
+    </>
   );
-};
+}
