@@ -40,7 +40,7 @@ export default async function LoginManager() {
           userProfileUrl="/user-profile"
         />
       ) : (
-        <Link href="/sign-in">Sign In</Link>
+        <></>
       )}
     </div>
   );
