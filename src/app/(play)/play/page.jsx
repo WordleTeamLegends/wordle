@@ -6,14 +6,13 @@ import { useEffect, useRef } from "react";
 import { useGameContext } from "@/context/game-context";
 import Keyboard from "@/components/Keyboard";
 import Display from "@/components/Display";
-import ModalUnstyled from "@/components/Modal";
+import ModalUnstyled from "@/components/ResultModal";
 
 export default function PlayPage() {
   const { startNewGame, currentGame } = useGameContext();
   const smartUseEffect = useRef(false);
   useEffect(() => {
     if (!smartUseEffect.current) {
-      console.log("i should only run one time");
       startNewGame();
     }
     return () => (smartUseEffect.current = true);

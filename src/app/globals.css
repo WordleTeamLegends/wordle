@@ -127,7 +127,6 @@ nav a:hover:after {
 .footer {
   position: fixed;
   bottom: 0;
-  translateY: -2.9rem;
   padding: 1rem;
   background-color: #ecf0f1;
   text-align: center;
