@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #fff6ed;
+  height: 100vh;
 }
 
 nav {
@@ -49,7 +50,7 @@ nav a:hover:after {
 }
 
 .container {
-  min-height: 100vh;
+  height: calc(100% - 2.9rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,10 +125,14 @@ nav a:hover:after {
 }
 
 .footer {
+  position: fixed;
+  bottom: 0;
+  translateY: -2.9rem;
   padding: 1rem;
   background-color: #ecf0f1;
   text-align: center;
   font-size: 0.9rem;
+  width: 100vw;
 }
 
 .footer:hover {
@@ -140,20 +145,28 @@ nav a:hover:after {
     margin-bottom: 0;
   }
 
+  .main {
+    margin-top: 0;
+  }
+
   .container {
     padding: 0 20px;
   }
 
   .header {
     margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding: 2rem;
   }
 
   .features {
+    padding: 1rem 0;
     margin-bottom: 0;
   }
 
   .feature {
     flex-basis: 100%;
+    padding: 0.5rem;
   }
 }
 
@@ -162,5 +175,11 @@ nav a:hover:after {
 
   .playButton {
     margin-top: 1rem;
+  }
+
+  .header {
+    padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
