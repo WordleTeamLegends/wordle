@@ -122,6 +122,8 @@ export default function GameContextProvider({ children }) {
                               (___/
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+    console.log("inside matrix validation ", solution);
+
     let solutionarray = solution.split("");
 
     let guessarray = [

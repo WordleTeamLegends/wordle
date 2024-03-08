@@ -16,7 +16,7 @@ export default function PlayPage() {
       startNewGame();
     }
     return () => (smartUseEffect.current = true);
-  }, []);
+  }, [startNewGame]);
   return (
     <div>
       <Display />
