@@ -1,17 +1,9 @@
 /* ----- Third Party Imports ----- */
-import {
-  ClerkProvider,
-  UserButton,
-  auth,
-  currentUser,
-  clerkClient,
-  getAuth,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import Link from "next/link";
-import GameContextProvider from "@/context/game-context";
 
 /* ----- Project Imports ----- */
-import LoginManager from "@/components/LoginManager";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata = {
@@ -23,7 +15,10 @@ export default async function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>{children}</body>
+        <body>
+          {children}
+          <Footer />
+        </body>
       </html>
     </ClerkProvider>
   );
