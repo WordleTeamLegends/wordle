@@ -1,6 +1,7 @@
 "use client";
-
 /* ----- Third Party Imports ----- */
+
+/* ----- Project Imports ----- */
 import { useGameContext } from "@/context/game-context";
 
 export default function Display() {

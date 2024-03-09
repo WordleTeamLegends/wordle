@@ -20,7 +20,7 @@ export default async function Home() {
         </p>
 
         {userId && <Link className="playButton" href="/play">Start Your Adventure</Link>}
-        {!userId && <Link className="playButton" href="/sign-in">Sign In</Link>}
+        {!userId && <Link className="playButton" href="/sign-in">Sign In To Play!</Link>}
 
       </main>
 

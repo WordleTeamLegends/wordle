@@ -1,5 +1,4 @@
 "use client";
-
 /* ----- Third Party Imports ----- */
 import * as React from "react";
 import PropTypes from "prop-types";
@@ -10,7 +9,7 @@ import { Modal as BaseModal } from "@mui/base/Modal";
 /* ----- Project Imports ----- */
 import { useGameContext } from "@/context/game-context";
 
-export default function ModalUnstyled() {
+export default function ResultModal() {
   const { currentGame } = useGameContext();
   let open = currentGame.finished;
   

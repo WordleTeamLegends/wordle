@@ -1,15 +1,13 @@
 "use client";
-
 /* ----- Third Party Imports ----- */
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 
 /* ----- Project Imports ----- */
 import { useGameContext } from "@/context/game-context";
-import "./Keyboard.css";
 
 export default function Keyboard() {
-  const { typeInLine, getGuess, deleteLetter, runToast, disabledButtons } = useGameContext();
+  const { typeInLine, getGuess, deleteLetter, disabledButtons } = useGameContext();
 
   useEffect (() => {
     const handleKeyboard = (event) => {

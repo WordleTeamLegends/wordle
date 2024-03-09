@@ -4,7 +4,7 @@ import Link from "next/link";
 
 /* ----- Project Imports ----- */
 import Footer from "@/components/Footer";
-import "./globals.css";
+import "@/styles/globals.css";
 
 export const metadata = {
   title: "Wordly by the Lads",
