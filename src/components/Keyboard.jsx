@@ -7,27 +7,18 @@ import { useEffect } from "react";
 import { useGameContext } from "@/context/game-context";
 
 export default function Keyboard() {
-  const { typeInLine, getGuess, deleteLetter, disabledButtons, currentKeyboard } = useGameContext();
+  const { isButtonDisabled, currentKeyboard, manageInput } = useGameContext();
 
   useEffect (() => {
     const handleKeyboard = (event) => {
       const pressedKey = event.key;
-      if(pressedKey === "Enter") {
-        getGuess();
-      }
-      else if(pressedKey === "Backspace") {
-        deleteLetter();
-      }
+      manageInput(pressedKey);
     }
     window.addEventListener("keydown", handleKeyboard);
     return () => {
       window.removeEventListener("keydown", handleKeyboard);
     }
-  }, [getGuess, deleteLetter]);
-
-  function isButtonDisabled(key) {
-    return disabledButtons.includes(key);
-  }
+  }, [manageInput]);
 
   function assignClass(key) {
     if (isButtonDisabled(key)) {
@@ -53,7 +44,7 @@ export default function Keyboard() {
                     disabled={isButtonDisabled(item.key)}
                     className={assignClass(item.key)}
                     onClick={() => {
-                      typeInLine(item.key);
+                      manageInput(item.key);
                     }}
                   >
                     {item.key}

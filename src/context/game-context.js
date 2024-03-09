@@ -77,8 +77,6 @@ export default function GameContextProvider({ children }) {
                               (___/
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-    console.log("inside matrix validation ", solution);
-
     let solutionarray = solution.split("");
 
     let guessarray = [
@@ -110,7 +108,6 @@ export default function GameContextProvider({ children }) {
     average [3] = Math.ceil((resultarray[0][3] + resultarray[1][3] + resultarray[2][3] + resultarray[3][3] + resultarray[4][3])/5)
     average [4] = Math.ceil((resultarray[0][4] + resultarray[1][4] + resultarray[2][4] + resultarray[3][4] + resultarray[4][4])/5)
 
-    console.log ("average", average)
     columnSums = average
     // for (let j = 0; j < resultarray.length; j++) {
     //   // Iterate columns
@@ -252,14 +249,38 @@ export default function GameContextProvider({ children }) {
     eval(`setRow${currentRow}(copyRow);`);
   }
 
+  function isButtonDisabled(letter) {
+    return disabledButtons.includes(letter);
+  }
+
+  function manageInput(key) {
+    if (key === "Enter") {
+      getGuess();
+    }
+    else if( key === "Backspace" || key === "Delete") {
+      deleteLetter();
+    }
+    else if ( key.length === 1 ) {
+      let letter = "";
+      if ( key >= "a" && key <= "z") {
+        letter = key.toUpperCase();
+      }
+      else if ( key >= "A" && key <= "Z") {
+        letter = key;
+      }
+      if (!isButtonDisabled(letter)) {
+        typeInLine(letter);
+      }
+    }
+  }
+
   return (
     <GameContext.Provider
       value={{
         currentGame,
-        getGuess,
-        typeInLine,
+        manageInput,
+        isButtonDisabled,
         startNewGame,
-        deleteLetter,
         currentKeyboard,
         row1,
         row2,
