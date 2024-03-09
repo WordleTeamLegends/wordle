@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useGameContext } from "@/context/game-context";
 
 export default function Keyboard() {
-  const { typeInLine, getGuess, deleteLetter, disabledButtons } = useGameContext();
+  const { typeInLine, getGuess, deleteLetter, disabledButtons, currentKeyboard } = useGameContext();
 
   useEffect (() => {
     const handleKeyboard = (event) => {
@@ -25,13 +25,6 @@ export default function Keyboard() {
     }
   }, [getGuess, deleteLetter]);
 
-
-  const firstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-  const secondRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-  const thirdRow = ["Z", "X", "C", "V", "B", "N", "M"];
-
-  // let disabledButtons = ["A", "C", "E"];
-
   function isButtonDisabled(key) {
     return disabledButtons.includes(key);
   }
@@ -47,67 +40,31 @@ export default function Keyboard() {
   return (
     <div id="keyboard-container">
       <Toaster />
-      <div className="keys-row">
-        {firstRow.map((key, index) => (
-          <button
-            key={key}
-            value={key}
-            disabled={isButtonDisabled(key)}
-            className={assignClass(key)}
-            onClick={() => {
-              typeInLine(key);
-            }}
-          >
-            {key}
-          </button>
-        ))}
-      </div>
-      <div className="keys-row">
-        {secondRow.map((key, index) => (
-          <button
-            key={key}
-            value={key}
-            disabled={isButtonDisabled(key)}
-            className={assignClass(key)}
-            onClick={() => {
-              typeInLine(key);
-            }}
-          >
-            {key}
-          </button>
-        ))}
-        <button
-          onClick={() => {
-            deleteLetter();
-          }}
-          id="del-button"
-        >
-          ❌
-        </button>
-      </div>
-      <div className="keys-row">
-        {thirdRow.map((key, index) => (
-          <button
-            key={key}
-            value={key}
-            disabled={isButtonDisabled(key)}
-            className={assignClass(key)}
-            onClick={() => {
-              typeInLine(key);
-            }}
-          >
-            {key}
-          </button>
-        ))}
-        <button
-          onClick={() => {
-            getGuess();
-          }}
-          id="enter-button"
-        >
-          ENTER
-        </button>
-      </div>
+      {
+        currentKeyboard.map((row, index) => {
+          return (
+            <div key={`${index} row`} className="keys-row">
+              {
+                row.map((item) => {
+                  return (
+                    <button 
+                    key={item.key}
+                    value={item.key}
+                    disabled={isButtonDisabled(item.key)}
+                    className={assignClass(item.key)}
+                    onClick={() => {
+                      typeInLine(item.key);
+                    }}
+                  >
+                    {item.key}
+                  </button>
+                  );
+                })
+              }
+            </div>
+          );
+        })
+      }
     </div>
   );
 }

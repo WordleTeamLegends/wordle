@@ -7,68 +7,23 @@ import toast from "react-hot-toast";
 /* ----- Project Imports ----- */
 import { checkDB, getTheWord, createGame, checkGame, gameEndQuery, updateDatabaseGuess } from "@/lib/checkDB";
 import { getUserId } from "@/lib/users";
+import * as Constants from "@/lib/constants.js";
 
 const GameContext = createContext();
 
-const initialState = [
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-];
-
-const currentGameObject = {
-  id: null,
-  user_id: null,
-  game_start_time: null,
-  game_end_time: null,
-  solution: null,
-  guess1: null,
-  guess2: null,
-  guess3: null,
-  guess4: null,
-  guess5: null,
-  guess6: null,
-  duration: null,
-  success: false,
-  finished: false,
-  current_guess: 1,
-  score: null,
-};
-
 export default function GameContextProvider({ children }) {
-  const [currentGame, setCurrentGame] = useState(JSON.parse(JSON.stringify(currentGameObject)));
+  const [currentGame, setCurrentGame] = useState(JSON.parse(JSON.stringify(Constants.currentGameObject)));
   const [currentRow, setCurrentRow] = useState(1);
 
   const [disabledButtons, setDisabledButtons] = useState([]);
+  const [currentKeyboard, setCurrentKeyboard] = useState(JSON.parse(JSON.stringify(Constants.inititalStateKeyboard)));
 
-  /*
-           _   
-       .__(.)< (MEOW)
-        \___)
-  ~~~~~~~~~~~~~~~~~~ */
-  const [row1, setRow1] = useState(JSON.parse(JSON.stringify(initialState)));
-  const [row2, setRow2] = useState(JSON.parse(JSON.stringify(initialState)));
-  const [row3, setRow3] = useState(JSON.parse(JSON.stringify(initialState)));
-  const [row4, setRow4] = useState(JSON.parse(JSON.stringify(initialState)));
-  const [row5, setRow5] = useState(JSON.parse(JSON.stringify(initialState)));
-  const [row6, setRow6] = useState(JSON.parse(JSON.stringify(initialState)));
+  const [row1, setRow1] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
+  const [row2, setRow2] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
+  const [row3, setRow3] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
+  const [row4, setRow4] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
+  const [row5, setRow5] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
+  const [row6, setRow6] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
 
   function endCurrentGame(result) {
     const copyCurrentGame = {...currentGame}
@@ -212,7 +167,7 @@ export default function GameContextProvider({ children }) {
   }
 
   async function startNewGame() {
-    const copyCurrentGame = { ...currentGameObject };
+    const copyCurrentGame = { ...Constants.currentGameObject };
     const user = await getUserId();
     const isGame = await checkGame(user);
     if (!isGame) {
@@ -305,6 +260,7 @@ export default function GameContextProvider({ children }) {
         typeInLine,
         startNewGame,
         deleteLetter,
+        currentKeyboard,
         row1,
         row2,
         row3,

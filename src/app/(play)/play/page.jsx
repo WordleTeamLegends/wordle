@@ -9,7 +9,7 @@ import Display from "@/components/Display";
 import ResultModal from "@/components/ResultModal";
 
 export default function PlayPage() {
-  const { startNewGame, currentGame } = useGameContext();
+  const { startNewGame } = useGameContext();
   const smartUseEffect = useRef(false);
   useEffect(() => {
     if (!smartUseEffect.current) {
