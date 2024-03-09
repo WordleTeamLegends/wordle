@@ -1,6 +1,6 @@
 /* ----- Third Party Imports ----- */ 
 import Link from "next/link";
-import { ClerkProvider, UserButton, auth, currentUser, clerkClient, getAuth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 
 export default async function Home() {
 
@@ -20,7 +20,7 @@ export default async function Home() {
         </p>
 
         {userId && <Link className="playButton" href="/play">Start Your Adventure</Link>}
-        {!userId && <Link className="playButton" href="/sign-in">Start Your Adventure</Link>}
+        {!userId && <Link className="playButton" href="/sign-in">Sign In To Play!</Link>}
 
       </main>
 

@@ -122,6 +122,8 @@ export default function GameContextProvider({ children }) {
                               (___/
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+    console.log("inside matrix validation ", solution);
+
     let solutionarray = solution.split("");
 
     let guessarray = [
@@ -169,15 +171,10 @@ export default function GameContextProvider({ children }) {
     
     // Sum the two matrices
     const sumMatrix = columnSums.map((element, index) => element + diagonalResults[index]);
-    console.log("resultarray", resultarray)
-    console.log("columnSums", columnSums)
-    console.log("diagonalResults", diagonalResults)
-    console.log("sumMatrix", sumMatrix)
     return [sumMatrix, guessarray];
   }
 
   async function getGuess() {
-    console.log("game Object now ", currentGame);
     const currentRowArray = eval(`row${currentRow}`);
     if (currentRowArray[4].value !== "") {
       const guess =
@@ -194,14 +191,11 @@ export default function GameContextProvider({ children }) {
 
         if (matrix[0][0] === 2 && matrix[0][1] === 2 && matrix[0][2] === 2 && matrix[0][3] === 2 && matrix[0][4] === 2) {
           endCurrentGame(true);
-          runToast("Game end triggered");
         } else {
           disableKeys(matrix[0], matrix[1]);
           if (currentRow === 6) {
-            runToast("End game triggered (failed guess)");
             endCurrentGame(false);
           } else {
-            runToast(`${guess.toLowerCase()} added to current game obj`);
             setCurrentRow(currentRow + 1);
           }
         }
