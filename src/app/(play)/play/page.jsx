@@ -9,7 +9,7 @@ import Display from "@/components/Display";
 import ModalUnstyled from "@/components/Modal";
 
 export default function PlayPage() {
-  const { startNewGame, currentGame } = useGameContext();
+  const { startNewGame } = useGameContext();
   const smartUseEffect = useRef(false);
   useEffect(() => {
     if (!smartUseEffect.current) {
