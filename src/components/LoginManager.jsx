@@ -1,21 +1,16 @@
 /* ----- Third Party Imports ----- */
-import {
-  ClerkProvider,
-  UserButton,
-  auth,
-  currentUser,
-  clerkClient,
-  getAuth,
-} from "@clerk/nextjs";
+import { UserButton, auth, currentUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { sql } from "@vercel/postgres";
+
+/* ----- Project Imports ----- */
+import "@/styles/loginbutton.css";
 
 export default async function LoginManager() {
   const { userId } = auth();
   const user = await currentUser();
 
-  const userCheck =
-    await sql`SELECT * FROM users WHERE clerk_user_id = ${userId}`;
+  const userCheck = await sql`SELECT * FROM users WHERE clerk_user_id = ${userId}`;
   if (user && userCheck.rowCount === 0) {
     const makeUser =
       await sql`INSERT INTO users (clerk_user_id, username) VALUES (${userId}, ${user.username})`;
@@ -32,7 +27,7 @@ export default async function LoginManager() {
   }
 
   return (
-    <div>
+    <div className="loginButtonDiv">
       {userId ? (
         <UserButton
           afterSignOutUrl="/"
