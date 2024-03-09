@@ -1,14 +1,30 @@
 "use client";
-
 /* ----- Third Party Imports ----- */
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 /* ----- Project Imports ----- */
 import { useGameContext } from "@/context/game-context";
-import "./Keyboard.css";
 
 export default function Keyboard() {
-  const { typeInLine, getGuess, deleteLetter, runToast, disabledButtons } = useGameContext();
+  const { typeInLine, getGuess, deleteLetter, disabledButtons } = useGameContext();
+
+  useEffect (() => {
+    const handleKeyboard = (event) => {
+      const pressedKey = event.key;
+      if(pressedKey === "Enter") {
+        getGuess();
+      }
+      else if(pressedKey === "Backspace") {
+        deleteLetter();
+      }
+    }
+    window.addEventListener("keydown", handleKeyboard);
+    return () => {
+      window.removeEventListener("keydown", handleKeyboard);
+    }
+  }, [getGuess, deleteLetter]);
+
 
   const firstRow = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const secondRow = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
