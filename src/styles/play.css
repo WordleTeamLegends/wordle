@@ -50,29 +50,34 @@ button {
   color: #fff;
   border: none;
   border-radius: 5px;
+  border: 1px solid black;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-button:hover {
-  background-color: #27ae60;
-}
-
-#del-button,
-#enter-button {
+.del-button,
+.enter-button {
   background-color: #e74c3c;
 }
 
-#del-button:hover,
-#enter-button:hover {
+button.del-button:hover,
+button.enter-button:hover {
   background-color: #c0392b;
 }
 
 .default {
-  background-color: rgb(195, 195, 195);
+  background-color: rgb(145, 145, 145);
+}
+
+button.default:hover {
+  background-color: rgb(145, 145, 145);
 }
 
 .green {
+  background-color: rgb(57, 204, 46);
+}
+
+button.green:hover {
   background-color: rgb(57, 204, 46);
 }
 
@@ -80,7 +85,15 @@ button:hover {
   background-color: rgb(243, 252, 75);
 }
 
+button.yellow:hover {
+  background-color: rgb(243, 252, 75);
+}
+
 .grey {
+  background-color: rgb(73, 73, 73);
+}
+
+button.grey:hover {
   background-color: rgb(73, 73, 73);
 }
 

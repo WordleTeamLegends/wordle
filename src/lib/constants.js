@@ -41,7 +41,7 @@ export const currentGameObject = {
 };
 
 export const inititalStateKeyboard = [
-  [{key: "Q"}, {key: "W"},{key: "E"},{key: "R"},{key: "T"},{key: "Y"},{key: "U"},{key: "I"},{key:  "O"},{key: "P"}],
-  [{key: "A"},{key: "S"},{key: "D"},{key: "F"},{key: "G"},{key: "H"},{key: "J"},{key: "K"},{key: "L"}],
-  [{key: "Enter"},{key: "Z"},{key: "X"},{key: "C"},{key: "V"},{key: "B"},{key: "N"},{key: "M"},{key: "Delete"}],
+  [{key: "Q", class: "default" }, {key: "W", class: "default" },{key: "E", class: "default" },{key: "R", class: "default" },{key: "T", class: "default" },{key: "Y", class: "default" },{key: "U", class: "default" },{key: "I", class: "default" },{key:  "O", class: "default" },{key: "P", class: "default" }],
+  [{key: "A", class: "default" },{key: "S", class: "default" },{key: "D", class: "default" },{key: "F", class: "default" },{key: "G", class: "default" },{key: "H", class: "default" },{key: "J", class: "default" },{key: "K", class: "default" },{key: "L", class: "default" }],
+  [{key: "Enter", class: "enter-button" },{key: "Z", class: "default" },{key: "X", class: "default" },{key: "C", class: "default" },{key: "V", class: "default" },{key: "B", class: "default" },{key: "N", class: "default" },{key: "M", class: "default" },{key: "Delete", class: "del-button" }],
 ];
