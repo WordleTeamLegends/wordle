@@ -41,7 +41,7 @@ export const currentGameObject = {
 };
 
 export const inititalStateKeyboard = [
-  [{key: "Q", class: "default" }, {key: "W", class: "default" },{key: "E", class: "default" },{key: "R", class: "default" },{key: "T", class: "default" },{key: "Y", class: "default" },{key: "U", class: "default" },{key: "I", class: "default" },{key:  "O", class: "default" },{key: "P", class: "default" }],
-  [{key: "A", class: "default" },{key: "S", class: "default" },{key: "D", class: "default" },{key: "F", class: "default" },{key: "G", class: "default" },{key: "H", class: "default" },{key: "J", class: "default" },{key: "K", class: "default" },{key: "L", class: "default" }],
-  [{key: "Enter", class: "enter-button" },{key: "Z", class: "default" },{key: "X", class: "default" },{key: "C", class: "default" },{key: "V", class: "default" },{key: "B", class: "default" },{key: "N", class: "default" },{key: "M", class: "default" },{key: "Delete", class: "del-button" }],
+  [{letter: "Q", class: "default" }, {letter: "W", class: "default" },{letter: "E", class: "default" },{letter: "R", class: "default" },{letter: "T", class: "default" },{letter: "Y", class: "default" },{letter: "U", class: "default" },{letter: "I", class: "default" },{letter:  "O", class: "default" },{letter: "P", class: "default" }],
+  [{letter: "A", class: "default" },{letter: "S", class: "default" },{letter: "D", class: "default" },{letter: "F", class: "default" },{letter: "G", class: "default" },{letter: "H", class: "default" },{letter: "J", class: "default" },{letter: "K", class: "default" },{letter: "L", class: "default" }],
+  [{letter: "Enter", class: "enter-button" },{letter: "Z", class: "default" },{letter: "X", class: "default" },{letter: "C", class: "default" },{letter: "V", class: "default" },{letter: "B", class: "default" },{letter: "N", class: "default" },{letter: "M", class: "default" },{letter: "Delete", class: "del-button" }],
 ];

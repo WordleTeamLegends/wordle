@@ -39,15 +39,15 @@ export default function Keyboard() {
                 row.map((item) => {
                   return (
                     <button 
-                    key={item.key}
-                    value={item.key}
-                    disabled={isButtonDisabled(item.key)}
+                    key={item.letter}
+                    value={item.letter}
+                    disabled={isButtonDisabled(item.letter)}
                     className={item.class}
                     onClick={() => {
-                      manageInput(item.key);
+                      manageInput(item.letter);
                     }}
                   >
-                    {item.key}
+                    {item.letter}
                   </button>
                   );
                 })
