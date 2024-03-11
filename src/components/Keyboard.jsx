@@ -42,7 +42,7 @@ export default function Keyboard() {
                     key={item.key}
                     value={item.key}
                     disabled={isButtonDisabled(item.key)}
-                    className={assignClass(item.key)}
+                    className={item.class}
                     onClick={() => {
                       manageInput(item.key);
                     }}
