@@ -45,6 +45,22 @@ export default function GameContextProvider({ children }) {
       }
     });
     eval(`setRow${row}(copyRow);`);
+    changeKeyboard(copyRow);
+  }
+
+  function changeKeyboard (row) {
+    const copyKeyboard = [...currentKeyboard];
+    row.forEach((item) => {
+      for(let j = 0; j < 3; j ++) {
+        const len = copyKeyboard[j].length;
+        for (let k = 0; k < len; k++) {
+          if( copyKeyboard[j][k].letter === item.value) {
+            copyKeyboard[j][k].class = item.class;
+          }
+        }
+      }
+    });
+    setCurrentKeyboard(copyKeyboard);
   }
 
   function disableKeys(myArray, guessarray) {
