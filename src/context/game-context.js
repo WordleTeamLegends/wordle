@@ -48,6 +48,8 @@ export default function GameContextProvider({ children }) {
     changeKeyboard(copyRow);
   }
 
+  //Need to make sure only one letter class pair here. 
+  //Check for green in either - then else if yellow -- etc
   function changeKeyboard (row) {
     const copyKeyboard = [...currentKeyboard];
     row.forEach((item) => {
@@ -55,7 +57,15 @@ export default function GameContextProvider({ children }) {
         const len = copyKeyboard[j].length;
         for (let k = 0; k < len; k++) {
           if( copyKeyboard[j][k].letter === item.value) {
-            copyKeyboard[j][k].class = item.class;
+            if (copyKeyboard[j][k].class === "green" || item.class === "green") {
+              copyKeyboard[j][k].class = "green";
+            }
+            else if (copyKeyboard[j][k].class === "yellow" || item.class === "yellow") {
+              copyKeyboard[j][k].class = "yellow";
+            }
+            else if (copyKeyboard[j][k].class === "grey" || item.class === "grey") {
+              copyKeyboard[j][k].class = "grey";
+            }
           }
         }
       }
