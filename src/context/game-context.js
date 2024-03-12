@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 /* ----- Project Imports ----- */
 import { checkDB, getTheWord, createGame, checkGame, gameEndQuery, updateDatabaseGuess } from "@/lib/checkDB";
 import { getUserId } from "@/lib/users";
-import * as Constants from "@/lib/constants.js";
+import * as Constants from "@/lib/constants";
+import * as Tools from "@/lib/tools";
 
 const GameContext = createContext();
 
@@ -38,9 +39,11 @@ export default function GameContextProvider({ children }) {
     letterClass.forEach((element, index) => {
       if (element === 0) {
         copyRow[index].class = "grey";
-      } else if (element === 1) {
+      } 
+      else if (element === 1) {
         copyRow[index].class = "yellow";
-      } else if (element === 2) {
+      } 
+      else if (element === 2) {
         copyRow[index].class = "green";
       }
     });
@@ -73,11 +76,14 @@ export default function GameContextProvider({ children }) {
     setCurrentKeyboard(copyKeyboard);
   }
 
-  function disableKeys(myArray, guessarray) {
-    myArray.forEach((item, index) => {
+  function disableKeys(resultarray, guessarray, solutionarray) {
+    resultarray.forEach((item, index) => {
+      const isIncluded = solutionarray.includes(guessarray[index]);
       if (item === 0) {
-        // setDisabledButtons(disabledButtons.push(guessarray[index]));
-        setDisabledButtons((prevButtons) => [...prevButtons, guessarray[index].toUpperCase()]);
+        // check that the letter at this index isnt in the solution to prevent disabling 
+        if (!isIncluded) {
+          setDisabledButtons((prevButtons) => [...prevButtons, guessarray[index].toUpperCase()]);
+        }
       }
       //runToast(disabledButtons);
     });
@@ -92,76 +98,16 @@ export default function GameContextProvider({ children }) {
     updateDatabaseGuess(copyGame.id, guess, currentRow);
   }
 
-  function resultValidation(currentRowArray, solution) {
-    /*
-                  _   
-              .__(.)< (Eduardo NO!)
-              \___)
-        ~~~~~~~~~~~~~~~~~~ 
-                              _   
-        (Matrix Good!)      >(.)__.
-                              (___/
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-    let solutionarray = solution.split("");
-
-    let guessarray = [
-      currentRowArray[0].value.toLowerCase(),
-      currentRowArray[1].value.toLowerCase(),
-      currentRowArray[2].value.toLowerCase(),
-      currentRowArray[3].value.toLowerCase(),
-      currentRowArray[4].value.toLowerCase(),
-    ]; // new from here
-    let resultarray = new Array(5); // array of 5x5
-
-    for (let i = 0; i < solutionarray.length; i++) {
-      resultarray[i] = new Array(5); // Initialize each row of the matrix
-      for (let j = 0; j < guessarray.length; j++) {
-        // Compare elements and store the result in the comparison matrix
-        resultarray[i][j] = solutionarray[i] === guessarray[j];
-      }
-    }
-    // Log the comparison matrix to the console
-
-    // Initialize an array INLINE to store the sum of each column (check if "good")
-    let columnSums = new Array(resultarray.length).fill(0);
-    let average = new Array(resultarray.length).fill(0);
-    // Sum values in each column
-    
-    average [0] = Math.ceil((resultarray[0][0] + resultarray[1][0] + resultarray[2][0] + resultarray[3][0] + resultarray[4][0])/5)
-    average [1] = Math.ceil((resultarray[0][1] + resultarray[1][1] + resultarray[2][1] + resultarray[3][1] + resultarray[4][1])/5)
-    average [2] = Math.ceil((resultarray[0][2] + resultarray[1][2] + resultarray[2][2] + resultarray[3][2] + resultarray[4][2])/5)
-    average [3] = Math.ceil((resultarray[0][3] + resultarray[1][3] + resultarray[2][3] + resultarray[3][3] + resultarray[4][3])/5)
-    average [4] = Math.ceil((resultarray[0][4] + resultarray[1][4] + resultarray[2][4] + resultarray[3][4] + resultarray[4][4])/5)
-
-    columnSums = average
-    // for (let j = 0; j < resultarray.length; j++) {
-    //   // Iterate columns
-    //   for (let i = 0; i < resultarray.length; i++) {
-    //     // Iterate rows
-    //     columnSums[j] += resultarray[i][j] ? 1 : 0; // Add 1 if true, 0 otherwise
-    //   }
-    // }
-
-    // Map results of i = j (main diagonal)(check if "perfect")
-    const diagonalResults = resultarray.map((row, i) => row[i]);
-
-    
-    // Sum the two matrices
-    const sumMatrix = columnSums.map((element, index) => element + diagonalResults[index]);
-    return [sumMatrix, guessarray];
-  }
-
   async function getGuess() {
     const currentRowArray = eval(`row${currentRow}`);
     if (currentRowArray[4].value !== "") {
-      const guess =
-        currentRowArray[0].value + currentRowArray[1].value + currentRowArray[2].value + currentRowArray[3].value + currentRowArray[4].value;
+      const guess = currentRowArray[0].value + currentRowArray[1].value + currentRowArray[2].value + currentRowArray[3].value + currentRowArray[4].value;
       const isAllowedGuess = await checkDB(guess);
       if (isAllowedGuess.rowCount > 0) {
         updateGuesses(guess, currentGame.user_id);
 
-        const result = resultValidation(currentRowArray, currentGame.solution);
+        const result = Tools.resultValidation(currentRowArray, currentGame.solution);
+        console.log(result);
 
         //Function that changes the class values in the row - used by Display Component
 
@@ -169,18 +115,22 @@ export default function GameContextProvider({ children }) {
 
         if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
           endCurrentGame(true);
-        } else {
-          disableKeys(result[0], result[1]);
+        } 
+        else {
+          disableKeys(result[0], result[1], result[2]);
           if (currentRow === 6) {
             endCurrentGame(false);
-          } else {
+          } 
+          else {
             setCurrentRow(currentRow + 1);
           }
         }
-      } else {
+      } 
+      else {
         runToast("NOT A VALID GUESS");
       }
-    } else {
+    } 
+    else {
       runToast("TYPE 5 LETTER WORD");
     }
   }
@@ -199,7 +149,8 @@ export default function GameContextProvider({ children }) {
       copyCurrentGame.solution = solution;
       copyCurrentGame.user_id = user;
       copyCurrentGame.id = id;
-    } else {
+    } 
+    else {
       let gameValues = {};
       if (isGame.rows[0]) {
         gameValues = isGame.rows[0];
@@ -216,7 +167,8 @@ export default function GameContextProvider({ children }) {
           if (guess) {
             setCurrentRow(i + 1);
             populateRows(i, guess, gameValues.solution);
-          } else {
+          } 
+          else {
             setCurrentRow(i);
           }
         }
@@ -234,8 +186,8 @@ export default function GameContextProvider({ children }) {
     copyRow.value = guess;
     eval(`setRow${row}(copyRow);`);
     const currentRowArray = eval(`row${row}`);
-    const result = resultValidation(currentRowArray, solution);
-    disableKeys(result[0], result[1]);
+    const result = Tools.resultValidation(currentRowArray, solution);
+    disableKeys(result[0], result[1], result[2]);
     changeColours(result[0], row);
   }
 
@@ -247,13 +199,17 @@ export default function GameContextProvider({ children }) {
     const copyRow = [...eval(`row${currentRow}`)];
     if (copyRow[0].value === "") {
       copyRow[0].value = key;
-    } else if (copyRow[0].value !== "" && copyRow[1].value === "") {
+    } 
+    else if (copyRow[0].value !== "" && copyRow[1].value === "") {
       copyRow[1].value = key;
-    } else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value === "") {
+    } 
+    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value === "") {
       copyRow[2].value = key;
-    } else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value === "") {
+    } 
+    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value === "") {
       copyRow[3].value = key;
-    } else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value !== "" && copyRow[4].value === "") {
+    } 
+    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value !== "" && copyRow[4].value === "") {
       copyRow[4].value = key;
     }
     eval(`setRow${currentRow}(copyRow);`);
@@ -263,13 +219,17 @@ export default function GameContextProvider({ children }) {
     const copyRow = [...eval(`row${currentRow}`)];
     if (copyRow[4].value !== "") {
       copyRow[4].value = "";
-    } else if (copyRow[4].value === "" && copyRow[3].value !== "") {
+    } 
+    else if (copyRow[4].value === "" && copyRow[3].value !== "") {
       copyRow[3].value = "";
-    } else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value !== "") {
+    } 
+    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value !== "") {
       copyRow[2].value = "";
-    } else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value !== "") {
+    } 
+    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value !== "") {
       copyRow[1].value = "";
-    } else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value === "" && copyRow[0].value !== "") {
+    } 
+    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value === "" && copyRow[0].value !== "") {
       copyRow[0].value = "";
     }
     eval(`setRow${currentRow}(copyRow);`);
