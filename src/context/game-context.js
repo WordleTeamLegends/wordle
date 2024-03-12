@@ -107,7 +107,6 @@ export default function GameContextProvider({ children }) {
         updateGuesses(guess, currentGame.user_id);
 
         const result = Tools.resultValidation(currentRowArray, currentGame.solution);
-        console.log(result);
 
         //Function that changes the class values in the row - used by Display Component
 
