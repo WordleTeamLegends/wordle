@@ -33,9 +33,9 @@ export default function GameContextProvider({ children }) {
     gameEndQuery(copyCurrentGame);
   }
 
-  function changeColours(sumMatrix, row) {
+  function changeColours(letterClass, row) {
     const copyRow = [...eval(`row${row}`)];
-    sumMatrix.forEach((element, index) => {
+    letterClass.forEach((element, index) => {
       if (element === 0) {
         copyRow[index].class = "grey";
       } else if (element === 1) {
@@ -92,7 +92,7 @@ export default function GameContextProvider({ children }) {
     updateDatabaseGuess(copyGame.id, guess, currentRow);
   }
 
-  function matrixValidation(currentRowArray, solution) {
+  function resultValidation(currentRowArray, solution) {
     /*
                   _   
               .__(.)< (Eduardo NO!)
@@ -161,16 +161,16 @@ export default function GameContextProvider({ children }) {
       if (isAllowedGuess.rowCount > 0) {
         updateGuesses(guess, currentGame.user_id);
 
-        const matrix = matrixValidation(currentRowArray, currentGame.solution);
+        const result = resultValidation(currentRowArray, currentGame.solution);
 
         //Function that changes the class values in the row - used by Display Component
 
-        changeColours(matrix[0], currentRow);
+        changeColours(result[0], currentRow);
 
-        if (matrix[0][0] === 2 && matrix[0][1] === 2 && matrix[0][2] === 2 && matrix[0][3] === 2 && matrix[0][4] === 2) {
+        if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
           endCurrentGame(true);
         } else {
-          disableKeys(matrix[0], matrix[1]);
+          disableKeys(result[0], result[1]);
           if (currentRow === 6) {
             endCurrentGame(false);
           } else {
@@ -234,9 +234,9 @@ export default function GameContextProvider({ children }) {
     copyRow.value = guess;
     eval(`setRow${row}(copyRow);`);
     const currentRowArray = eval(`row${row}`);
-    const matrix = matrixValidation(currentRowArray, solution);
-    disableKeys(matrix[0], matrix[1]);
-    changeColours(matrix[0], row);
+    const result = resultValidation(currentRowArray, solution);
+    disableKeys(result[0], result[1]);
+    changeColours(result[0], row);
   }
 
   function updateCurrentGame(copiedObject) {
