@@ -39,7 +39,7 @@ export default function ResultModal() {
           </p> 
           )
           }
-          <button onClick={refreshPage}>PLAY AGAIN</button>
+          <button className="green" onClick={refreshPage}>PLAY AGAIN</button>
         </ModalContent>
       </Modal>
     </div>
