@@ -47,6 +47,7 @@ button {
   padding: 10px;
   margin: 5px;
   font-size: 1.2em;
+  width: 2.5rem;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -58,6 +59,7 @@ button {
 .del-button,
 .enter-button {
   background-color: #e74c3c;
+  width: 5rem;
 }
 
 button.del-button:hover,
@@ -77,12 +79,20 @@ button.default:hover {
   background-color: rgb(57, 204, 46);
 }
 
+button.green {
+  color: black;
+}
+
 button.green:hover {
   background-color: rgb(57, 204, 46);
 }
 
 .yellow {
   background-color: rgb(243, 252, 75);
+}
+
+button.yellow {
+  color: black;
 }
 
 button.yellow:hover {
