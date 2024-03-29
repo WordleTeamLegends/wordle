@@ -16,17 +16,25 @@
 }
 
 .homePageHeader {
+  box-sizing: border-box;
+  background-color: #8311e7;
+  display: flex;
+  align-items: flex-start;
   width: 70%;
-  margin: auto;
+  margin: 1rem auto;
 }
 
 .homePageTitle {
-  position: relative;
   text-align: center;
+  flex-grow: 1;
   margin: 1rem;
-  background-color: #8311e7;
-  padding: 5rem;
+  padding: 1rem;
   color: #fff;
+  top: 50%; 
+}
+
+.centreHomePageTitle {
+  transform: translateX(calc(0% - 32px));
 }
 
 .homePageTitle h1 {
@@ -89,7 +97,7 @@
 @media only screen and(min-width: 551px) and (max-width: 768px) {
   .homePageHeader {
     width: 70%;
-    margin: auto;
+    margin: 0.5rem auto;
   }
   .homepageMainElement {
     height: 100%;
@@ -107,7 +115,7 @@
 @media only screen and (max-width: 550px) {
   .homePageHeader {
     width: 90%;
-    margin: auto;
+    margin: 0.5rem auto;
   }
   .homePageTitle {
     padding: 3rem;

@@ -10,9 +10,13 @@ export default async function RootLayout({ children }) {
   return (
     <>
       <GameContextProvider>
-        <header>
-        <LoginManager />
-        <Navigation />
+        <header className="playPageHeader">
+        <div className="alignLoginButton">
+          <LoginManager />
+        </div>
+        <div className="centreNavLink">
+          <Navigation />
+        </div>
         </header>
         <main className="playPageMainElement">
         {children}
