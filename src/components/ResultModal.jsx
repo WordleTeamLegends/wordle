@@ -39,7 +39,7 @@ export default function ResultModal() {
           </p> 
           )
           }
-          <button className="green" onClick={refreshPage}>PLAY AGAIN</button>
+          <div><p className="playAgainButton" onClick={refreshPage}>PLAY AGAIN</p></div>
         </ModalContent>
       </Modal>
     </div>
@@ -99,7 +99,7 @@ const ModalContent = styled("div")(
   ({ theme }) => css`
     font-family: "IBM Plex Sans", sans-serif;
     font-weight: 500;
-    text-align: start;
+    text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -115,7 +115,7 @@ const ModalContent = styled("div")(
     & .modal-title {
       margin: 0;
       line-height: 1.5rem;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     & .modal-description {
@@ -123,7 +123,7 @@ const ModalContent = styled("div")(
       line-height: 1.5rem;
       font-weight: 400;
       color: ${theme.palette.mode === "dark" ? grey[400] : grey[800]};
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
   `
 );
