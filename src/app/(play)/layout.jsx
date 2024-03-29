@@ -1,20 +1,22 @@
 /* ----- Third Party Imports ----- */
-import Link from "next/link";
 
 /* ----- Project Imports ----- */
 import GameContextProvider from "@/context/game-context";
 import LoginManager from "@/components/LoginManager";
+import Navigation from "@/components/Navigation";
 import "@/styles/play.css";
 
 export default async function RootLayout({ children }) {
   return (
     <>
       <GameContextProvider>
+        <header>
         <LoginManager />
-        <nav className="playPageNav"> 
-          <Link href="/">Home</Link>
-        </nav>
+        <Navigation />
+        </header>
+        <main className="playPageMainElement">
         {children}
+        </main>
       </GameContextProvider>
     </>
   );
