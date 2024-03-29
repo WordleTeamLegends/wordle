@@ -10,7 +10,7 @@ export default function Display() {
 
   return (
     <div>
-      <div id="line">
+      <div className="line">
         {row1.map((object, index) => {
           return (
             <div key={`row1 + ${object.value} + ${object.class} + ${index}`}>
@@ -19,7 +19,7 @@ export default function Display() {
           );
         })}
       </div>
-      <div id="line">
+      <div className="line">
         {row2.map((object, index) => {
           return (
             <div key={`row2 + ${object.value} + ${object.class} + ${index}`}>
@@ -28,7 +28,7 @@ export default function Display() {
           );
         })}
       </div>
-      <div id="line">
+      <div className="line">
         {row3.map((object, index) => {
           return (
             <div key={`row3 + ${object.value} + ${object.class} + ${index}`}>
@@ -37,7 +37,7 @@ export default function Display() {
           );
         })}
       </div>
-      <div id="line">
+      <div className="line">
         {row4.map((object, index) => {
           return (
             <div key={`row4 + ${object.value} + ${object.class} + ${index}`}>
@@ -46,7 +46,7 @@ export default function Display() {
           );
         })}
       </div>
-      <div id="line">
+      <div className="line">
         {row5.map((object, index) => {
           return (
             <div key={`row5 + ${object.value} + ${object.class} + ${index}`}>
@@ -55,7 +55,7 @@ export default function Display() {
           );
         })}
       </div>
-      <div id="line">
+      <div className="line">
         {row6.map((object, index) => {
           return (
             <div key={`row6 + ${object.value} + ${object.class} + ${index}`}>

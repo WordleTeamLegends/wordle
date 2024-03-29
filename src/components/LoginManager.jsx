@@ -27,16 +27,18 @@ export default async function LoginManager() {
   }
 
   return (
-    <div className="loginButtonDiv">
+    <>
       {userId ? (
-        <UserButton
+        <div className="loginButtonDiv">
+        <UserButton 
           afterSignOutUrl="/"
           userProfileMode="navigation"
           userProfileUrl="/user-profile"
         />
+        </div>
       ) : (
         <></>
       )}
-    </div>
+    </>
   );
 }
