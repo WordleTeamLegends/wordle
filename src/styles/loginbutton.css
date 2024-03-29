@@ -1,5 +1,16 @@
 .loginButtonDiv {
-  position: fixed;
-  top: 0;
-  padding: 3rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+/* .cl-userButtonPopoverCard {
+  left: 15%;
+} */
+
+@media only screen and (max-width: 550px) {
+  .loginButtonDiv {
+    top: 0;
+    left: 0;
+  }
 }
