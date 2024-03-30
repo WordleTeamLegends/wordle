@@ -258,7 +258,6 @@ export default function GameContextProvider({ children }) {
       },1000);
     }
     else if ( (key >= "a" && key <= "z") || ( key >= "A" && key <= "Z" ) ) {
-      console.log("here");
       let letter = "";
       if ( key >= "a" && key <= "z") {
         letter = key.toUpperCase();
