@@ -240,12 +240,25 @@ export default function GameContextProvider({ children }) {
 
   function manageInput(key) {
     if (key === "Enter") {
-      getGuess();
+      Constants.deleteAllowed.value = false;
+      if(Constants.enterAllowed.value) {
+        getGuess();
+      }
+      setTimeout(() => {
+        Constants.deleteAllowed.value = true;
+      },1000);
     }
     else if( key === "Backspace" || key === "Delete") {
-      deleteLetter();
+      Constants.enterAllowed.value = false;
+      if(Constants.deleteAllowed.value) {
+        deleteLetter();
+      }
+      setTimeout(() => {
+        Constants.enterAllowed.value = true;
+      },1000);
     }
-    else if ( key.length === 1 ) {
+    else if ( (key >= "a" && key <= "z") || ( key >= "A" && key <= "Z" ) ) {
+      console.log("here");
       let letter = "";
       if ( key >= "a" && key <= "z") {
         letter = key.toUpperCase();
