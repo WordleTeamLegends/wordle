@@ -20,13 +20,6 @@ export default function GameContextProvider({ children }) {
   const [currentKeyboard, setCurrentKeyboard] = useState(JSON.parse(JSON.stringify(Constants.inititalStateKeyboard)));
   const [currentDisplay, setCurrentDisplay] = useState(Tools.createDisplayObject());
 
-  const [row0, setRow0] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row1, setRow1] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row2, setRow2] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row3, setRow3] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row4, setRow4] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row5, setRow5] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-
   function endCurrentGame(result) {
     const copyCurrentGame = {...currentGame}
     copyCurrentGame.finished = true;
@@ -36,23 +29,18 @@ export default function GameContextProvider({ children }) {
   }
 
   function changeColours(letterClass, row) {
-    const copyRow = [...eval(`row${row}`)];
     const copyDisplay = [...currentDisplay]
     letterClass.forEach((element, index) => {
       if (element === 0) {
-        copyRow[index].class = "grey";
         currentDisplay[row][index].class = "grey";
       } 
       else if (element === 1) {
-        copyRow[index].class = "yellow";
         currentDisplay[row][index].class = "yellow";
       } 
       else if (element === 2) {
-        copyRow[index].class = "green";
         currentDisplay[row][index].class = "green";
       }
     });
-    eval(`setRow${row}(copyRow);`);
     setCurrentDisplay(copyDisplay);
     changeKeyboard(copyDisplay[row]);
   }
@@ -95,7 +83,7 @@ export default function GameContextProvider({ children }) {
     });
   }
 
-  async function updateGuesses(guess, user) {
+  async function updateGuesses(guess) {
     //Update Game object first
     const copyGame = { ...currentGame };
     const newGuess = eval(`copyGame.guess${currentRow} = guess`);
@@ -105,31 +93,6 @@ export default function GameContextProvider({ children }) {
   }
 
   async function getGuess() {
-    // const currentRowArray = eval(`row${currentRow}`);
-    // const guess = currentRowArray[0].value + currentRowArray[1].value + currentRowArray[2].value + currentRowArray[3].value + currentRowArray[4].value;
-    // const isAllowedGuess = await checkDB(guess);
-    // if (isAllowedGuess.rowCount > 0) {
-    //   updateGuesses(guess, currentGame.user_id);
-
-    //   const result = Tools.resultValidation(currentRowArray, currentGame.solution);
-
-    //   //Function that changes the class values in the row - used by Display Component
-
-    //   changeColours(result[0], currentRow);
-
-    //   if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
-    //     endCurrentGame(true);
-    //   } 
-    //   else {
-    //     disableKeys(result[0], result[1], result[2]);
-    //     if (currentRow === 6) {
-    //       endCurrentGame(false);
-    //     } 
-    //     else {
-    //       setCurrentRow(currentRow + 1);
-    //     }
-    //   }
-    // } 
     let guess = "";
     for (let i = 0; i <= 4; i++ ) {
       guess += currentDisplay[currentRow][i].value.toString();
@@ -202,15 +165,10 @@ export default function GameContextProvider({ children }) {
 
   function populateRows(row, guess, solution) {
     const copyDisplay = [...currentDisplay];
-    const copyRow = [...eval(`row${row}`)];
     for (let i = 0; i < 5; i++) {
-      copyRow[i].value = guess.charAt(i);
       copyDisplay[row][i].value = guess.charAt(i);
     }
-    //copyRow.value = guess;
     setCurrentDisplay(copyDisplay);
-    eval(`setRow${row}(copyRow);`);
-    const currentRowArray = eval(`row${row}`);
     const result = Tools.validateGuess(copyDisplay[row], solution);
     disableKeys(result[0], result[1], result[2]);
     changeColours(result[0], row);
@@ -221,23 +179,6 @@ export default function GameContextProvider({ children }) {
   }
 
   function typeInLine(key) {
-    const copyRow = [...eval(`row${currentRow}`)];
-    if (copyRow[0].value === "") {
-      copyRow[0].value = key;
-    } 
-    else if (copyRow[0].value !== "" && copyRow[1].value === "") {
-      copyRow[1].value = key;
-    } 
-    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value === "") {
-      copyRow[2].value = key;
-    } 
-    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value === "") {
-      copyRow[3].value = key;
-    } 
-    else if (copyRow[0].value !== "" && copyRow[1].value !== "" && copyRow[2].value !== "" && copyRow[3].value !== "" && copyRow[4].value === "") {
-      copyRow[4].value = key;
-    }
-    eval(`setRow${currentRow}(copyRow);`);
     const copyDisplay = [...currentDisplay]
     copyDisplay[currentRow][currentIndex].value = key;
     setCurrentDisplay(copyDisplay);
@@ -245,23 +186,6 @@ export default function GameContextProvider({ children }) {
   }
 
   function deleteLetter() {
-    const copyRow = [...eval(`row${currentRow}`)];
-    if (copyRow[4].value !== "") {
-      copyRow[4].value = "";
-    } 
-    else if (copyRow[4].value === "" && copyRow[3].value !== "") {
-      copyRow[3].value = "";
-    } 
-    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value !== "") {
-      copyRow[2].value = "";
-    } 
-    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value !== "") {
-      copyRow[1].value = "";
-    } 
-    else if (copyRow[4].value === "" && copyRow[3].value === "" && copyRow[2].value === "" && copyRow[1].value === "" && copyRow[0].value !== "") {
-      copyRow[0].value = "";
-    }
-    eval(`setRow${currentRow}(copyRow);`);
     const copyDisplay = [...currentDisplay]
     copyDisplay[currentRow][currentIndex - 1].value = "";
     setCurrentDisplay(copyDisplay);
@@ -309,12 +233,6 @@ export default function GameContextProvider({ children }) {
         isButtonDisabled,
         startNewGame,
         currentKeyboard,
-        row0,
-        row1,
-        row2,
-        row3,
-        row4,
-        row5,
         currentDisplay,
         runToast,
         disabledButtons,
