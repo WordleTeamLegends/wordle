@@ -1,3 +1,6 @@
+/* ----- Third Party Imports ----- */
+import * as Constants from "@/lib/constants";
+
 export function resultValidation(currentRowArray, solution) {
   /*
                 _   
@@ -41,3 +44,25 @@ export function resultValidation(currentRowArray, solution) {
 
   return [resultarray, guessarray, originalsolutionarray];
 }
+
+export function createDisplayObject() {
+  const DISPLAY = [];
+  const ROW = [];
+  for(let i = 0; i < 5; i++) {
+    ROW.push(Constants.displayObject);
+  }
+  for(let i = 0; i < 6; i++) {
+    DISPLAY.push(ROW);
+  }
+  return JSON.parse(JSON.stringify(DISPLAY));
+}
+
+export const isGuessLoading = {
+  _value: false,
+  get value() {
+    return this._value;
+  },
+  set value(arg) {
+    this._value = arg;
+  }
+};

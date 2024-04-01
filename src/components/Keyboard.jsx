@@ -29,7 +29,7 @@ export default function Keyboard() {
   }
 
   return (
-    <div id="keyboard-container">
+    <section id="keyboard-container">
       <Toaster />
       {
         currentKeyboard.map((row, index) => {
@@ -56,6 +56,6 @@ export default function Keyboard() {
           );
         })
       }
-    </div>
+    </section>
   );
 }
