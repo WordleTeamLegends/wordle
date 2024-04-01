@@ -1,7 +1,7 @@
 /* ----- Third Party Imports ----- */
 import * as Constants from "@/lib/constants";
 
-export function resultValidation(currentRowArray, solution) {
+export function validateGuess(currentRowArray, solution) {
   /*
                 _   
             .__(.)< (Eduardo NO!)

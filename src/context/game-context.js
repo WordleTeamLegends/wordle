@@ -37,19 +37,24 @@ export default function GameContextProvider({ children }) {
 
   function changeColours(letterClass, row) {
     const copyRow = [...eval(`row${row}`)];
+    const copyDisplay = [...currentDisplay]
     letterClass.forEach((element, index) => {
       if (element === 0) {
         copyRow[index].class = "grey";
+        currentDisplay[row][index].class = "grey";
       } 
       else if (element === 1) {
         copyRow[index].class = "yellow";
+        currentDisplay[row][index].class = "yellow";
       } 
       else if (element === 2) {
         copyRow[index].class = "green";
+        currentDisplay[row][index].class = "green";
       }
     });
     eval(`setRow${row}(copyRow);`);
-    changeKeyboard(copyRow);
+    setCurrentDisplay(copyDisplay);
+    changeKeyboard(copyDisplay[row]);
   }
 
   //Need to make sure only one letter class pair here. 
@@ -100,39 +105,56 @@ export default function GameContextProvider({ children }) {
   }
 
   async function getGuess() {
-    const currentRowArray = eval(`row${currentRow}`);
-    if (currentRowArray[4].value !== "") {
-      const guess = currentRowArray[0].value + currentRowArray[1].value + currentRowArray[2].value + currentRowArray[3].value + currentRowArray[4].value;
-      const isAllowedGuess = await checkDB(guess);
-      if (isAllowedGuess.rowCount > 0) {
-        updateGuesses(guess, currentGame.user_id);
+    // const currentRowArray = eval(`row${currentRow}`);
+    // const guess = currentRowArray[0].value + currentRowArray[1].value + currentRowArray[2].value + currentRowArray[3].value + currentRowArray[4].value;
+    // const isAllowedGuess = await checkDB(guess);
+    // if (isAllowedGuess.rowCount > 0) {
+    //   updateGuesses(guess, currentGame.user_id);
 
-        const result = Tools.resultValidation(currentRowArray, currentGame.solution);
+    //   const result = Tools.resultValidation(currentRowArray, currentGame.solution);
 
-        //Function that changes the class values in the row - used by Display Component
+    //   //Function that changes the class values in the row - used by Display Component
 
-        changeColours(result[0], currentRow);
+    //   changeColours(result[0], currentRow);
 
-        if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
-          endCurrentGame(true);
-        } 
-        else {
-          disableKeys(result[0], result[1], result[2]);
-          if (currentRow === 6) {
-            endCurrentGame(false);
-          } 
-          else {
-            setCurrentRow(currentRow + 1);
-          }
-        }
+    //   if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
+    //     endCurrentGame(true);
+    //   } 
+    //   else {
+    //     disableKeys(result[0], result[1], result[2]);
+    //     if (currentRow === 6) {
+    //       endCurrentGame(false);
+    //     } 
+    //     else {
+    //       setCurrentRow(currentRow + 1);
+    //     }
+    //   }
+    // } 
+    let guess = "";
+    for (let i = 0; i <= 4; i++ ) {
+      guess += currentDisplay[currentRow][i].value.toString();
+    }
+    const isAllowedGuess = await checkDB(guess)
+    if (isAllowedGuess.rowCount > 0) {
+      updateGuesses(guess, currentGame.user_id);
+      const result = Tools.validateGuess(currentDisplay[currentRow], currentGame.solution);
+      changeColours(result[0], currentRow)
+      if (result[0][0] === 2 && result[0][1] === 2 && result[0][2] === 2 && result[0][3] === 2 && result[0][4] === 2) {
+        endCurrentGame(true);
       } 
       else {
-        runToast("NOT A VALID GUESS");
+        disableKeys(result[0], result[1], result[2]);
+        if (currentRow === 5) {
+          endCurrentGame(false);
+        } 
+        else {
+          setCurrentRow(currentRow + 1);
+        }
       }
-    } 
-    else {
-      runToast("TYPE 5 LETTER WORD");
     }
+    else {
+      runToast("NOT A VALID GUESS");
+    } 
   }
 
   function runToast(message) {
@@ -179,14 +201,17 @@ export default function GameContextProvider({ children }) {
   }
 
   function populateRows(row, guess, solution) {
+    const copyDisplay = [...currentDisplay];
     const copyRow = [...eval(`row${row}`)];
     for (let i = 0; i < 5; i++) {
       copyRow[i].value = guess.charAt(i);
+      copyDisplay[row][i].value = guess.charAt(i);
     }
-    copyRow.value = guess;
+    //copyRow.value = guess;
+    setCurrentDisplay(copyDisplay);
     eval(`setRow${row}(copyRow);`);
     const currentRowArray = eval(`row${row}`);
-    const result = Tools.resultValidation(currentRowArray, solution);
+    const result = Tools.validateGuess(copyDisplay[row], solution);
     disableKeys(result[0], result[1], result[2]);
     changeColours(result[0], row);
   }
@@ -248,18 +273,12 @@ export default function GameContextProvider({ children }) {
   }
 
   function manageInput(key) {
-    if (key === "Enter") {
-      Tools.isGuessLoading.value = true;
-      getGuess().finally(() => {
-        Tools.isGuessLoading.value = false;
-      });
-    }
-    else if( key === "Backspace" || key === "Delete") {
+    if( (key === "Backspace" || key === "Delete") && currentIndex != 0) {
       if(!Tools.isGuessLoading.value) {
         deleteLetter();
       }
     }
-    else if ( (key >= "a" && key <= "z") || ( key >= "A" && key <= "Z" ) ) {
+    else if ( key.length == 1 && ((key >= "a" && key <= "z") || ( key >= "A" && key <= "Z" )) ) {
       let letter = "";
       if ( key >= "a" && key <= "z") {
         letter = key.toUpperCase();
@@ -270,6 +289,15 @@ export default function GameContextProvider({ children }) {
       if (!isButtonDisabled(letter)) {
         typeInLine(letter);
       }
+    }
+    else if (key === "Enter" && currentIndex === 5) {
+      Tools.isGuessLoading.value = true;
+      getGuess().finally(() => {
+        Tools.isGuessLoading.value = false;
+      });
+    }
+    else {
+      runToast(`Incorrect use of ${key}`);
     }
   }
 
