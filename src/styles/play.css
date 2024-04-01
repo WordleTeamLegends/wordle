@@ -202,3 +202,10 @@ button.grey:hover {
     margin-bottom: 3rem
   }
 }
+
+.displayItems {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  justify-content: center;
+}

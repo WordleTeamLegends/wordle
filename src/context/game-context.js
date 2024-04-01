@@ -14,17 +14,18 @@ const GameContext = createContext();
 
 export default function GameContextProvider({ children }) {
   const [currentGame, setCurrentGame] = useState(JSON.parse(JSON.stringify(Constants.currentGameObject)));
-  const [currentRow, setCurrentRow] = useState(1);
-
+  const [currentRow, setCurrentRow] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [disabledButtons, setDisabledButtons] = useState([]);
   const [currentKeyboard, setCurrentKeyboard] = useState(JSON.parse(JSON.stringify(Constants.inititalStateKeyboard)));
+  const [currentDisplay, setCurrentDisplay] = useState(Tools.createDisplayObject());
 
+  const [row0, setRow0] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
   const [row1, setRow1] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
   const [row2, setRow2] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
   const [row3, setRow3] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
   const [row4, setRow4] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
   const [row5, setRow5] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
-  const [row6, setRow6] = useState(JSON.parse(JSON.stringify(Constants.initialStateDisplayRows)));
 
   function endCurrentGame(result) {
     const copyCurrentGame = {...currentGame}
@@ -158,7 +159,7 @@ export default function GameContextProvider({ children }) {
         copyCurrentGame.game_start_time = gameValues.game_start_time;
         copyCurrentGame.solution = gameValues.solution;
         copyCurrentGame.current_guess = gameValues.current_guess;
-        for (let i = 1; i <= gameValues.current_guess; i++) {
+        for (let i = 0; i <= gameValues.current_guess; i++) {
           eval(`copyCurrentGame.guess${i} = gameValues.guess${i}`);
           let guess = "";
           eval(`guess = gameValues.guess${i}`);
@@ -212,6 +213,10 @@ export default function GameContextProvider({ children }) {
       copyRow[4].value = key;
     }
     eval(`setRow${currentRow}(copyRow);`);
+    const copyDisplay = [...currentDisplay]
+    copyDisplay[currentRow][currentIndex].value = key;
+    setCurrentDisplay(copyDisplay);
+    setCurrentIndex(currentIndex => currentIndex + 1);
   }
 
   function deleteLetter() {
@@ -232,6 +237,10 @@ export default function GameContextProvider({ children }) {
       copyRow[0].value = "";
     }
     eval(`setRow${currentRow}(copyRow);`);
+    const copyDisplay = [...currentDisplay]
+    copyDisplay[currentRow][currentIndex - 1].value = "";
+    setCurrentDisplay(copyDisplay);
+    setCurrentIndex(currentIndex => currentIndex - 1);
   }
 
   function isButtonDisabled(letter) {
@@ -240,22 +249,15 @@ export default function GameContextProvider({ children }) {
 
   function manageInput(key) {
     if (key === "Enter") {
-      Constants.deleteAllowed.value = false;
-      if(Constants.enterAllowed.value) {
-        getGuess();
-      }
-      setTimeout(() => {
-        Constants.deleteAllowed.value = true;
-      },1000);
+      Tools.isGuessLoading.value = true;
+      getGuess().finally(() => {
+        Tools.isGuessLoading.value = false;
+      });
     }
     else if( key === "Backspace" || key === "Delete") {
-      Constants.enterAllowed.value = false;
-      if(Constants.deleteAllowed.value) {
+      if(!Tools.isGuessLoading.value) {
         deleteLetter();
       }
-      setTimeout(() => {
-        Constants.enterAllowed.value = true;
-      },1000);
     }
     else if ( (key >= "a" && key <= "z") || ( key >= "A" && key <= "Z" ) ) {
       let letter = "";
@@ -279,12 +281,13 @@ export default function GameContextProvider({ children }) {
         isButtonDisabled,
         startNewGame,
         currentKeyboard,
+        row0,
         row1,
         row2,
         row3,
         row4,
         row5,
-        row6,
+        currentDisplay,
         runToast,
         disabledButtons,
       }}
