@@ -1,26 +1,3 @@
-export const initialStateDisplayRows = [
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-  {
-    value: "",
-    class: "default",
-  },
-];
-
 export const displayObject = {
   value: "",
   class: "default",
