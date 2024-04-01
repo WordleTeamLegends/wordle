@@ -112,6 +112,7 @@ export default function GameContextProvider({ children }) {
         } 
         else {
           setCurrentRow(currentRow + 1);
+          setCurrentIndex(0);
         }
       }
     }

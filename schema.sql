@@ -28,5 +28,5 @@ guess6 TEXT,
 duration TEXT,
 success BOOLEAN,
 score INTEGER,
-current_guess INTEGER NOT NULL DEFAULT 1,
+current_guess INTEGER NOT NULL DEFAULT 0,
 isLiveGame BOOLEAN DEFAULT TRUE);
